@@ -2,7 +2,7 @@
  * Retorna a quantidade de papéis comprados de um FII
  *
  * Baseado na aba "Transações", busca os eventos de compra do ativo
- * da linha atual, somando-os. Para o cálculo de bonificação e 
+ * especificado, somando-os. Para o cálculo de bonificação e 
  * grupamento, é necessário inverter o array de dados obtidos 
  * com getRange() e tratando com o método transformRange().
  * Abaixo segue o algoritmo para ambos.
@@ -32,12 +32,12 @@
  *
  * @returns {Int} A quantidade total do ativo da linha atual
  */
-function qtde() {
+function qtde(ativo) {
   var sum = 0,
     sheet = SpreadsheetApp.getActive(),
     aba = SpreadsheetApp.getActiveSheet(),
 
-    transacoes = sheet.getSheetByName('Transações'),
+    transacoes = sheet.getSheetByName('📈📉 Transações'),
     data = transformRange(transacoes.getRange('B6:B')),
     codigos = transformRange(transacoes.getRange('C6:C')),
     eventos = transformRange(transacoes.getRange('D6:D')),
@@ -47,7 +47,7 @@ function qtde() {
     fii = aba.getRange('B' + linha).getValue().split('\n')[0];
 
   codigos.map(function (item, i) {
-    var codigo = item.toString().split('\n')[0],
+    var codigo = item[0].toString().split('\n')[0],
       evento = eventos[i].toString(),
       qtde = qtdes[i].toString();
     
@@ -87,4 +87,14 @@ function transformRange(range) {
     .filter(String)
     .slice(0)
     .reverse();
+}
+
+function onOpen(event) {
+  console.log('olá', event);
+  qtde();
+}
+
+function onEdit(event) {
+  console.log('editou', event);
+  qtde();
 }
