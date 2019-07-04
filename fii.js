@@ -33,23 +33,23 @@
  * @returns {Int} A quantidade total do ativo da linha atual
  */
 function qtde(ativo) {
-  var sum = 0,
-    sheet = SpreadsheetApp.getActive(),
-    aba = SpreadsheetApp.getActiveSheet(),
+  var sum = 0;
+  var sheet = SpreadsheetApp.getActive();
+  var aba = SpreadsheetApp.getActiveSheet();
 
-    transacoes = sheet.getSheetByName('📈📉 Transações'),
-    data = transformRange(transacoes.getRange('B6:B')),
-    codigos = transformRange(transacoes.getRange('C6:C')),
-    eventos = transformRange(transacoes.getRange('D6:D')),
-    qtdes = transformRange(transacoes.getRange('E6:E')),
+  var transacoes = sheet.getSheetByName('📈📉 Transações');
+  var data = transformRange(transacoes.getRange('B6:B'));
+  var codigos = transformRange(transacoes.getRange('C6:C'));
+  var eventos = transformRange(transacoes.getRange('D6:D'));
+  var qtdes = transformRange(transacoes.getRange('E6:E'));
 
-    linha = aba.getActiveCell().getRow(),
-    fii = aba.getRange('B' + linha).getValue().split('\n')[0];
+  var linha = aba.getActiveCell().getRow();
+  var fii = aba.getRange('B' + linha).getValue().split('\n')[0];
 
   codigos.map(function (item, i) {
-    var codigo = item[0].toString().split('\n')[0],
-      evento = eventos[i].toString(),
-      qtde = qtdes[i].toString();
+    var codigo = item[0].toString().split('\n')[0];
+    var evento = eventos[i].toString();
+    var qtde = qtdes[i].toString();
     
     if (codigo === fii) {
       switch (evento) {
@@ -87,14 +87,4 @@ function transformRange(range) {
     .filter(String)
     .slice(0)
     .reverse();
-}
-
-function onOpen(event) {
-  console.log('olá', event);
-  qtde();
-}
-
-function onEdit(event) {
-  console.log('editou', event);
-  qtde();
 }
