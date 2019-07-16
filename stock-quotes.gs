@@ -1,45 +1,45 @@
 /**
- * Retorna a quantidade de papéis comprados
- *
- * @returns {Int} A quantidade total do ativo da linha atual
+ * Global variables
  */
-function qtde(ativo) {
-  var sum = 0;
-  var sheet = SpreadsheetApp.getActive();
-  var aba = SpreadsheetApp.getActiveSheet();
+var sheet = SpreadsheetApp.getActive();
+var transactions = sheet.getSheetByName('📈📉 Transações');
+var codes = transformRange(transactions.getRange('C6:C'));
+var events = transformRange(transactions.getRange('E6:E'));
+var quantities = transformRange(transactions.getRange('F6:F'));
 
-  var transacoes = sheet.getSheetByName('📈📉 Transações');
-  var data = transformRange(transacoes.getRange('B6:B'));
-  var codigos = transformRange(transacoes.getRange('C6:C'));
-  var eventos = transformRange(transacoes.getRange('E6:E'));
-  var qtdes = transformRange(transacoes.getRange('F6:F'));
+/**
+ * Returns the amount of hold stocks
+ *
+ * @param   {String} stock The code of the stock to calculate
+ * @returns {Int}          The amount of stock holding
+ */
+function amount(stock) {
+  var code, event, quantity, sum = 0;
 
-  var linha = aba.getActiveCell().getRow();
-  var ativo = aba.getRange('B' + linha).getValue().split('\n')[0];
+  codes.map(function (item, i) {
+    code = item[0].toString();
+    event = events[i].toString();
+    quantity = quantities[i].toString();
 
-  codigos.map(function (item, i) {
-    var codigo = item[0].toString().split('\n')[0];
-    var evento = eventos[i].toString();
-    var qtde = qtdes[i].toString();
-    
-    if (codigo === ativo) {
-      switch (evento) {
-        case 'Compra': sum += +qtde; break;
-        case 'Venda': sum -= +qtde; break;
-        case 'Bonificação': sum += Math.floor(sum / qtde.split(':')[0]); break;
-        case 'Grupamento': sum = Math.floor(sum / qtde.split(':')[0]); break;
+    if (code === stock) {
+      switch (event) {
+        case 'Compra':        sum += +quantity; break;
+        case 'Venda':         sum -= +quantity; break;
+        case 'Bonificação':   sum += Math.floor(sum / quantity.split(':')[0]); break;
+        case 'Grupamento':    sum = Math.floor(sum / quantity.split(':')[0]); break;
+        case 'Desdobramento': sum = Math.floor(sum * quantity.split(':')[1]); break;
       }
     }
   });
-  
+
   return sum;
 }
 
 /**
- * Transforma um range de dados num array
+ * Transforms a range of data in array
  *
  * @see https://stackoverflow.com/a/17637159/1096219
- * @returns {Array} Os dados tratados e invertidos por ordem de data.
+ * @returns {Array} Data inverted by date order.
  */
 function transformRange(range) {
   return range
