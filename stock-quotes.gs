@@ -2,7 +2,7 @@
  * Global variables
  */
 var sheet = SpreadsheetApp.getActive();
-var transactions = sheet.getSheetByName('📈📉 Transações');
+var transactions = sheet.getSheetByName('📈 Transações');
 var codes = transformRange(transactions.getRange('C6:C'));
 var events = transformRange(transactions.getRange('E6:E'));
 var quantities = transformRange(transactions.getRange('F6:F'));
@@ -23,10 +23,10 @@ function amount(stock) {
 
     if (code === stock) {
       switch (event) {
-        case 'Compra':        sum += +quantity; break;
-        case 'Venda':         sum -= +quantity; break;
-        case 'Bonificação':   sum += Math.floor(sum / quantity.split(':')[0]); break;
-        case 'Grupamento':    sum = Math.floor(sum / quantity.split(':')[0]); break;
+        case 'Venda': sum -= +quantity; break;
+        case 'Compra': sum += +quantity; break;
+        case 'Grupamento': sum = Math.floor(sum / quantity.split(':')[0]); break;
+        case 'Bonificação': sum += Math.floor(sum / quantity.split(':')[0]); break;
         case 'Desdobramento': sum = Math.floor(sum * quantity.split(':')[1]); break;
       }
     }
