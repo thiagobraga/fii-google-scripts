@@ -4,10 +4,6 @@
   📈 Funções do Google Scripts para auxílio em planilha de Investimentos em Fundos Imobiliários e Ações
 </p>
 
-<p align="center">
-  <img src="https://i.snag.gy/QVoiyh.jpg" width="75%" />
-</p>
-
 ## Cálculo de quantidade
 
 Baseado na aba "Transações", busca os eventos de compra do ativo
