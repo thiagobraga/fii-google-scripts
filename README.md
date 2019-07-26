@@ -1,7 +1,10 @@
 <h1 align="center">Stock Quotes | Google Scripts</h1>
 
 <p align="center">
-  📈 Funções do Google Scripts para auxílio em planilha de Investimentos em Fundos Imobiliários e Ações<br>
+  📈 Funções do Google Scripts para auxílio em planilha de Investimentos em Fundos Imobiliários e Ações
+</p>
+
+<p align="center">
   <img src="https://i.snag.gy/QVoiyh.jpg" width="75%" />
 </p>
 
