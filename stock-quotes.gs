@@ -1,6 +1,11 @@
 /**
- * Global variables
+ * stockQuotes
+ *
+ * Helper scripts for investment spreadsheet.
+ * @version 0.0.1
  */
+
+// Global variables
 var sheet = SpreadsheetApp.getActive();
 var transactions = sheet.getSheetByName('📈 Transações');
 var codes = transformRange(transactions.getRange('C6:C'));
@@ -8,12 +13,14 @@ var events = transformRange(transactions.getRange('E6:E'));
 var quantities = transformRange(transactions.getRange('F6:F'));
 
 /**
- * Returns the amount of hold stocks
+ * 💰 Returns the number of quotas of the specified asset
  *
- * @param   {String} stock The code of the stock to calculate
- * @returns {Int}          The amount of stock holding
+ * @param {String} stock The code of the stock to calculate
+ * @returns {Int} The amount of stock holding
+ * @customfunction
  */
 function amount(stock) {
+  // TODO: Get current line e.g. B9 if not specified.
   if (stock === undefined) return;
 
   var code, event, quantity, sum = 0;
